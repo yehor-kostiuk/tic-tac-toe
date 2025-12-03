@@ -27,3 +27,6 @@ packages/
 
 # Dotnet local tools
 .dotnet/
+
+# Data
+users.json
