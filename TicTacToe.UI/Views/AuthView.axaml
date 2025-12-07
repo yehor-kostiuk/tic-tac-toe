@@ -7,16 +7,40 @@
              x:Class="TicTacToe.UI.Views.AuthView"
              x:DataType="vm:AuthViewModel">
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
-        
-        <TextBlock Text="{Binding PageTitle}" 
-                   FontSize="30" 
-                   HorizontalAlignment="Center"/>
+    <Border Background="#d3d2d2" Padding="70" Margin="300,60" CornerRadius="10">
+        <StackPanel Spacing="10" VerticalAlignment="Center">
+            
+            <TextBlock Text="Хрестики-Нулики" 
+                       FontSize="24" FontWeight="Bold" 
+                       HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
-        <Button Command="{Binding SwitchPageCommand}" 
-                Content="Перемкнути сторінку" 
-                HorizontalAlignment="Center"
-                Padding="10"/>
-                
-    </StackPanel>
+            <TextBlock Text="Логін:"/>
+            <TextBox Text="{Binding Username}" Watermark="Введіть нікнейм"/>
+
+            <StackPanel IsVisible="{Binding IsRegisterMode}" Spacing="5">
+                <TextBlock Text="Email:"/>
+                <TextBox Text="{Binding Email}" Watermark="email@example.com"/>
+            </StackPanel>
+
+            <TextBlock Text="Пароль:"/>
+            <TextBox Text="{Binding Password}" PasswordChar="*" Watermark="Ваш пароль"/>
+
+            <Button Command="{Binding SubmitCommand}" 
+                    Content="{Binding MainButtonText}" 
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Background="#007ACC" Foreground="White"
+                    Margin="0,20,0,0"/>
+
+            <Button Command="{Binding ToggleModeCommand}"
+                    Content="{Binding ToggleModeText}"
+                    HorizontalAlignment="Center"
+                    Background="Transparent" Foreground="Gray"/>
+
+            <TextBlock Text="{Binding Message}" 
+                       Foreground="Red" 
+                       HorizontalAlignment="Center" 
+                       TextWrapping="Wrap"/>
+        </StackPanel>
+    </Border>
 </UserControl>
