@@ -1,4 +1,3 @@
-using System; // TODO: delete
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -28,11 +27,9 @@ public partial class App : Application
 
       authViewModel.OnLoginSuccess = (user) =>
       {
-        Console.WriteLine($"user {user.Username}");
-        Console.WriteLine($"rate {user.Rating}");
-        Console.WriteLine($"id {user.Id}");
+        var menuViewModel = new MenuViewModel(user);
 
-        authViewModel.Message = $"Вхід виконано {user.Username}";
+        mainViewModel.Content = menuViewModel;
       };
 
       desktop.MainWindow = new MainWindow { DataContext = mainViewModel };
