@@ -7,32 +7,34 @@
              x:Class="TicTacToe.UI.Views.MenuView"
              x:DataType="vm:MenuViewModel">
 
-    <StackPanel HorizontalAlignment="Center" 
-                VerticalAlignment="Center" 
-                Spacing="20">
-        
-        <TextBlock Text="ГОЛОВНЕ МЕНЮ" 
-                   FontSize="30" 
-                   FontWeight="Bold" 
-                   HorizontalAlignment="Center"/>
+  <Grid Margin="20">
+    <DockPanel VerticalAlignment="Top">
+      <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="10">
+        <TextBlock Text="{Binding CurrentUser.Username}" FontWeight="Bold" FontSize="18"/>
+        <TextBlock Text="|" Foreground="Gray"/>
+        <TextBlock Text="{Binding CurrentUser.Rating, StringFormat='Рейтинг: {0}'}" FontSize="18"/>
+      </StackPanel>
 
-        <Border Background="#d3d2d2" CornerRadius="10" Padding="20">
-            <StackPanel Spacing="10">
-                <TextBlock FontSize="18">
-                    <Run Text="Гравець: " FontWeight="Bold"/>
-                    <Run Text="{Binding CurrentUser.Username}"/>
-                </TextBlock>
+      <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="15" HorizontalAlignment="Right">
+        <Button Command="{Binding HistoryCommand}" Content="Історія" Background="Blue" Foreground="white" CornerRadius="5"/>
+        <Button Command="{Binding LogoutCommand}" Content="Вийти" Background="#FF4B4B" Foreground="White" CornerRadius="5"/>
+      </StackPanel>
+    </DockPanel>
 
-                <TextBlock FontSize="18">
-                    <Run Text="Рейтинг: " FontWeight="Bold"/>
-                    <Run Text="{Binding CurrentUser.Rating}"/>
-                </TextBlock>
-                
-                <TextBlock FontSize="18" >
-                    <Run Text="ID: " FontWeight="Bold"/>
-                    <Run Text="{Binding CurrentUser.Id}"/>
-                </TextBlock>
-            </StackPanel>
-        </Border>
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="20" Width="250">
+      <TextBlock Text="ХРЕСТИКИ-НУЛИКИ" FontSize="24" FontWeight="Black" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+      
+      <Button Command="{Binding StartPvpCommand}" 
+              Content="Грати 1 на 1" 
+              HorizontalAlignment="Stretch" 
+              HorizontalContentAlignment="Center"
+              Height="50" FontSize="18"/>
+
+      <Button Command="{Binding StartPveCommand}" 
+              Content="Грати з ботом" 
+              HorizontalAlignment="Stretch" 
+              HorizontalContentAlignment="Center"
+              Height="50" FontSize="18"/>
     </StackPanel>
+  </Grid>
 </UserControl>

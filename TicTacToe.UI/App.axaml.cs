@@ -29,6 +29,11 @@ public partial class App : Application
       {
         var menuViewModel = new MenuViewModel(user);
 
+        menuViewModel.OnLogout = () =>
+        {
+          mainViewModel.Content = authViewModel;
+        };
+
         mainViewModel.Content = menuViewModel;
       };
 
