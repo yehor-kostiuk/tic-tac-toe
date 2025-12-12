@@ -6,6 +6,7 @@ using ReactiveUI;
 using TicTacToe.BLL.Services;
 using TicTacToe.Core.Entities;
 using TicTacToe.Core.Interfaces;
+using TicTacToe.DAL.Repositories;
 
 namespace TicTacToe.UI.ViewModels
 {
@@ -14,6 +15,7 @@ namespace TicTacToe.UI.ViewModels
     private readonly GameService _gameLogic;
     private readonly User _user;
     private readonly IUserRepository _userRepository;
+    private readonly GameRepository _gameRepository;
 
     public string PlayerName => _user.Username;
     public int CurrentRating => _user.Rating;
@@ -45,10 +47,11 @@ namespace TicTacToe.UI.ViewModels
     public ReactiveCommand<Unit, Unit> CloseCommand { get; }
     public ReactiveCommand<int, Unit> PlayerMoveCommand { get; }
 
-    public GameViewModel(User user, IUserRepository userRepository)
+    public GameViewModel(User user, IUserRepository userRepo, GameRepository gameRepo)
     {
       _user = user;
-      _userRepository = userRepository;
+      _userRepository = userRepo;
+      _gameRepository = gameRepo;
       _gameLogic = new GameService();
 
       PlayerMoveCommand = ReactiveCommand.Create<int>(OnPlayerMove);
@@ -120,29 +123,44 @@ namespace TicTacToe.UI.ViewModels
     {
       IsGameOver = true;
       int ratingChange = 0;
+      string opponent = "Bot";
 
       switch (result)
       {
         case GameResult.Win:
           ratingChange = 25;
-          ResultText = $"ПЕРЕМОГА (+{ratingChange})";
           break;
         case GameResult.Loss:
           ratingChange = -25;
-          ResultText = $"ПОРАЗКА ({ratingChange})";
           break;
         case GameResult.Draw:
-          ResultText = "НІЧИЯ (0)";
+          ratingChange = 0;
           break;
       }
+
+      if (ratingChange > 0)
+        ResultText = $"ПЕРЕМОГА! (+{ratingChange})";
+      else if (ratingChange < 0)
+        ResultText = $"ПОРАЗКА ({ratingChange})";
+      else
+        ResultText = "НІЧИЯ";
 
       _user.Rating += ratingChange;
       if (_user.Rating < 0)
         _user.Rating = 0;
-
       _userRepository.Update(_user);
-
       this.RaisePropertyChanged(nameof(CurrentRating));
+
+      var session = new GameSession
+      {
+        PlayerId = _user.Id,
+        PlayerName = _user.Username,
+        OpponentName = opponent,
+        RatingChange = ratingChange,
+        IsWin = ratingChange > 0,
+        PlayerRating = _user.Rating,
+      };
+      _gameRepository.AddGame(session);
     }
   }
 }
