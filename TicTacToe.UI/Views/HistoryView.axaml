@@ -1,0 +1,67 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TicTacToe.UI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+             x:Class="TicTacToe.UI.Views.HistoryView"
+             x:DataType="vm:HistoryViewModel">
+
+    <Border Background="gray" Padding="20">
+        <Grid RowDefinitions="Auto, *">
+            
+            <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,20">
+                <TextBlock Text="Історія ігор" FontSize="24" FontWeight="Bold"/>
+                <Button Grid.Column="1" Command="{Binding CloseCommand}" Content="X" 
+                        Background="Transparent" Foreground="Black" FontWeight="Bold"/>
+            </Grid>
+
+            <ScrollViewer Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding Games}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="10">
+                                <Grid ColumnDefinitions="Auto, *, Auto">
+                                    
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                        
+                                        <TextBlock Text="{Binding PlayerName}" 
+                                                   FontWeight="Bold" 
+                                                   FontSize="20"/>
+                                        
+                                        <Border Background="#F0F0F0" CornerRadius="4" Padding="4,0">
+                                            <TextBlock Text="{Binding PlayerRating}" 
+                                                       Foreground="Gray" 
+                                                       FontSize="20" 
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+
+                                        <TextBlock Text="{Binding RatingChange, StringFormat='({0:+0;-0;0})'}" 
+                                                   FontWeight="Bold"
+                                                   FontSize="20"
+                                                   VerticalAlignment="Center"/> 
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Column="1" Text="VS" 
+                                               HorizontalAlignment="Center" 
+                                               FontSize="20"
+                                               FontStyle="Italic"/>
+
+                                    <TextBlock Grid.Column="2" Text="{Binding OpponentName}" 
+                                               FontWeight="Bold" 
+                                               FontSize="20"
+                                               Foreground="#D50000"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            
+            <TextBlock Grid.Row="1" Text="Історії поки немає" 
+                       IsVisible="{Binding !Games.Count}"
+                       FontSize="20"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+    </Border>
+</UserControl>
