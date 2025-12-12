@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TicTacToe.UI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+             x:Class="TicTacToe.UI.Views.GameView"
+             x:DataType="vm:GameViewModel">
+
+    <Grid>
+        <Grid RowDefinitions="Auto, *, Auto" Margin="20">
+            
+            <Grid ColumnDefinitions="Auto, *, Auto" Margin="0,0,0,20">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="5">
+                    <TextBlock Text="{Binding PlayerName}" FontWeight="Bold" FontSize="18"/>
+                    <TextBlock Text="{Binding CurrentRating, StringFormat='({0})'}" FontSize="18" Foreground="Gray"/>
+                </StackPanel>
+                
+                <TextBlock Grid.Column="1" Text="{Binding StatusMessage}" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           FontWeight="Bold" FontSize="26" Foreground="#007ACC"/>
+
+                <TextBlock Grid.Column="2" Text="BOT" FontWeight="Bold" FontSize="18" Foreground="Red"/>
+            </Grid>
+
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Board}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="3" Columns="3" Width="300" Height="300"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding ClickCommand}" 
+                                Content="{Binding Text}"
+                                FontSize="40" FontWeight="Bold"
+                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                Width="60" Height="60"
+                                Margin="5" Background="Gray" BorderBrush="Gray" BorderThickness="2"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+
+        <Border IsVisible="{Binding IsGameOver}" 
+                Background="#CC000000" 
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            
+            <Border Background="Gray" CornerRadius="15" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Padding="30" Width="350" BoxShadow="0 0 20 5 Black">
+                
+                <StackPanel Spacing="20" Background="">
+                    <TextBlock Text="ГРА ЗАВЕРШЕНА" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"/>
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                        <TextBlock Text="{Binding PlayerName}" FontSize="16"/>
+                        <TextBlock Text="{Binding ResultText}" FontSize="16" FontWeight="Bold" Foreground="#D50000"/>
+                        <TextBlock Text="VS BOT" FontSize="16"/>
+                    </StackPanel>
+
+                    <Button Command="{Binding CloseCommand}" 
+                            Content="Повернутись в меню"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                            Background="#2196F3" Foreground="White" FontWeight="Bold" Padding="10"/>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Grid>
+</UserControl>
