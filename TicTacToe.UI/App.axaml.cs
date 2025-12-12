@@ -29,9 +29,23 @@ public partial class App : Application
       {
         var menuViewModel = new MenuViewModel(user);
 
+        // Logout
         menuViewModel.OnLogout = () =>
         {
           mainViewModel.Content = authViewModel;
+        };
+
+        // VS Bot
+        menuViewModel.OnStartPve = () =>
+        {
+          var gameViewModel = new GameViewModel(user, userRepo);
+
+          gameViewModel.OnCloseGame = () =>
+          {
+            mainViewModel.Content = menuViewModel;
+          };
+
+          mainViewModel.Content = gameViewModel;
         };
 
         mainViewModel.Content = menuViewModel;

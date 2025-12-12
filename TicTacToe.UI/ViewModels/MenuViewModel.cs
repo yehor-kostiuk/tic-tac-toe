@@ -10,6 +10,7 @@ namespace TicTacToe.UI.ViewModels
     public User CurrentUser { get; }
 
     public Action? OnLogout { get; set; }
+    public Action? OnStartPve { get; set; }
 
     public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
     public ReactiveCommand<Unit, Unit> HistoryCommand { get; }
@@ -21,11 +22,11 @@ namespace TicTacToe.UI.ViewModels
       CurrentUser = user;
 
       LogoutCommand = ReactiveCommand.Create(() => OnLogout?.Invoke());
+      StartPveCommand = ReactiveCommand.Create(() => OnStartPve?.Invoke());
 
       // TEST console TODO: delete
       HistoryCommand = ReactiveCommand.Create(() => Console.WriteLine("Історія"));
       StartPvpCommand = ReactiveCommand.Create(() => Console.WriteLine("Гра 1 на 1"));
-      StartPveCommand = ReactiveCommand.Create(() => Console.WriteLine("Гра з ботом"));
     }
   }
 }
