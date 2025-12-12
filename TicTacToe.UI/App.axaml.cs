@@ -20,6 +20,8 @@ public partial class App : Application
     if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
     {
       var userRepo = new UserRepository();
+      var gameRepo = new GameRepository();
+
       var authService = new AuthService(userRepo);
 
       var authViewModel = new AuthViewModel(authService);
@@ -38,7 +40,7 @@ public partial class App : Application
         // VS Bot
         menuViewModel.OnStartPve = () =>
         {
-          var gameViewModel = new GameViewModel(user, userRepo);
+          var gameViewModel = new GameViewModel(user, userRepo, gameRepo);
 
           gameViewModel.OnCloseGame = () =>
           {
@@ -46,6 +48,19 @@ public partial class App : Application
           };
 
           mainViewModel.Content = gameViewModel;
+        };
+
+        // History
+        menuViewModel.OnHistory = () =>
+        {
+          var historyViewModel = new HistoryViewModel(user, gameRepo);
+
+          historyViewModel.OnClose = () =>
+          {
+            mainViewModel.Content = menuViewModel;
+          };
+
+          mainViewModel.Content = historyViewModel;
         };
 
         mainViewModel.Content = menuViewModel;

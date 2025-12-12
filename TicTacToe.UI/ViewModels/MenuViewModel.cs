@@ -11,6 +11,7 @@ namespace TicTacToe.UI.ViewModels
 
     public Action? OnLogout { get; set; }
     public Action? OnStartPve { get; set; }
+    public Action? OnHistory { get; set; }
 
     public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
     public ReactiveCommand<Unit, Unit> HistoryCommand { get; }
@@ -23,9 +24,9 @@ namespace TicTacToe.UI.ViewModels
 
       LogoutCommand = ReactiveCommand.Create(() => OnLogout?.Invoke());
       StartPveCommand = ReactiveCommand.Create(() => OnStartPve?.Invoke());
+      HistoryCommand = ReactiveCommand.Create(() => OnHistory?.Invoke());
 
       // TEST console TODO: delete
-      HistoryCommand = ReactiveCommand.Create(() => Console.WriteLine("Історія"));
       StartPvpCommand = ReactiveCommand.Create(() => Console.WriteLine("Гра 1 на 1"));
     }
   }
